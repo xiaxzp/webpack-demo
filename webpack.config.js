@@ -9,7 +9,7 @@ module.exports = {
     filename: "bundles.js"//打包后输出文件的文件名
   },
   devServer: { //webpack-dev-server
-    contentBase: "./public",//本地服务器所加载的页面所在的目录
+    contentBase: "./",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
     inline: true//实时刷新
   },

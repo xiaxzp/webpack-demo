@@ -22,7 +22,7 @@
   myModulefunction.generateDiv = function(){
     var greet = document.createElement('div');
     greet.className = styles.root;
-    greet.innerText = "Hi there and greetings!";
+    greet.innerText = "Hi there and greetings!a";
     return greet;
   }
   return myModulefunction;

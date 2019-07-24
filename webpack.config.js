@@ -1,9 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+let disPath = path.resolve(__dirname, './dist')
+
 module.exports = {
   mode: 'development',
-  entry:  __dirname + "/js/script.js",//已多次提及的唯一入口文件
+  entry:  {
+    index:__dirname + "/js/script.js"//已多次提及的唯一入口文件
+  },
   output: {
     path: __dirname +"/dist",//打包后的文件存放的地方
     filename: "bundles.js"//打包后输出文件的文件名
@@ -39,6 +46,9 @@ module.exports = {
             }
           }
         ]
+    }, {
+      test: /\.js$/,
+      exclude: /node_modules/
     }]
   },
   plugins: [
@@ -48,6 +58,14 @@ module.exports = {
       minify: {
         removeComments: true
       }
-    })
+    }),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: path.join(__dirname, 'manifest.json')
+    }),
+    new HtmlWebpackTagsPlugin({ tags: ['DLL.js'], append: false }),
+    new CopyPlugin([
+      { from: path.join(__dirname, 'DLL.js'), to: __dirname +"/dist" },
+    ]),
   ]
 }

@@ -1,15 +1,15 @@
 const webpack = require('webpack');
-//const path = require('path');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  devtool: 'eval-source-map',
-    mode: 'development',
+  mode: 'development',
   entry:  __dirname + "/js/script.js",//已多次提及的唯一入口文件
   output: {
-    path: __dirname +"/",//打包后的文件存放的地方
+    path: __dirname +"/dist",//打包后的文件存放的地方
     filename: "bundles.js"//打包后输出文件的文件名
   },
   devServer: { //webpack-dev-server
-    contentBase: "./",//本地服务器所加载的页面所在的目录
+    devtool: 'eval-source-map',
     historyApiFallback: true,//不跳转
     inline: true//实时刷新
   },
@@ -27,6 +27,27 @@ module.exports = {
                 }
             }
         ]
+    },{
+      test: /\.html$/,
+        use: [
+          // 应用多个 loader 和选项
+          "htmllint-loader",
+          {
+            loader: "html-loader",
+            options: {
+             
+            }
+          }
+        ]
     }]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'index.html'),
+      inject: true,
+      minify: {
+        removeComments: true
+      }
+    })
+  ]
 }
